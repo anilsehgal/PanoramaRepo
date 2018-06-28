@@ -1,0 +1,559 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="panorama">
+
+	<select id="getLatest50Discussions" resultType="edu.utoledo.panorama.vo.DiscussionVO">
+		SELECT TOP 50
+		discussionId
+		,topic
+		,description
+		,createdBy
+		,createdOn
+		,lastModifiedOn
+		,lastModifiedBy
+		,replyCount
+		,status
+		,isEdited
+		,discussionType
+		FROM
+		Discussions ORDER
+		BY discussionId DESC
+	</select>
+
+	<select id="getHot50OpenDiscussions" resultType="edu.utoledo.panorama.vo.DiscussionVO">
+		SELECT TOP 50
+		discussionId
+		,topic
+		,description
+		,createdBy
+		,createdOn
+		,lastModifiedOn
+		,lastModifiedBy
+		,replyCount
+		,status
+		,isEdited
+		,discussionType
+		FROM
+		Discussions WHERE
+		status = 1 ORDER BY replyCount
+		DESC
+	</select>
+
+	<select id="getLatest50ClosedDiscussions" resultType="edu.utoledo.panorama.vo.DiscussionVO">
+		SELECT TOP
+		50
+		discussionId
+		,topic
+		,description
+		,createdBy
+		,createdOn
+		,lastModifiedOn
+		,lastModifiedBy
+		,replyCount
+		,status
+		,isEdited
+		,discussionType
+		FROM
+		Discussions WHERE
+		status = 0 ORDER BY discussionId
+		DESC
+	</select>
+	
+	<select id="getTrendingDiscussions" resultType="edu.utoledo.panorama.vo.DiscussionVO">
+		SELECT * FROM Discussions WHERE discussionId IN (SELECT TOP 5 t1.discussionId
+		FROM   Replies t1 
+		INNER JOIN 
+		(
+		    SELECT Max(createdOn) createdOn, discussionId
+		    FROM   Replies 
+		    GROUP BY discussionId 
+		) AS t2 
+		    ON t1.discussionId = t2.discussionId
+		    AND t1.createdOn = t2.createdOn 
+		ORDER BY t1.createdOn DESC )
+	</select>
+	
+	<select id="getDiscussionsByUser" resultType="edu.utoledo.panorama.vo.DiscussionVO"
+		parameterType="java.lang.Double">
+		SELECT
+		discussionId
+		,topic
+		,description
+		,createdBy
+		,createdOn
+		,lastModifiedOn
+		,lastModifiedBy
+		,replyCount
+		,status
+		,isEdited
+		,discussionType
+		FROM Discussions WHERE createdBy =
+		#{inputUser} ORDER BY
+		discussionId DESC
+	</select>
+
+	<select id="getDiscussionById" resultType="edu.utoledo.panorama.vo.DiscussionVO"
+		parameterType="java.lang.Double">
+		SELECT
+		discussionId
+		,topic
+		,description
+		,createdBy
+		,createdOn
+		,lastModifiedOn
+		,lastModifiedBy
+		,replyCount
+		,status
+		,isEdited
+		,discussionType
+		FROM Discussions WHERE discussionId =
+		#{discussionId}
+	</select>
+
+	<select id="getDiscussionsCreatedSince" resultType="edu.utoledo.panorama.vo.DiscussionVO"
+		parameterType="java.util.Date">
+		SELECT
+		discussionId
+		,topic
+		,description
+		,createdBy
+		,createdOn
+		,lastModifiedOn
+		,lastModifiedBy
+		,replyCount
+		,status
+		,isEdited
+		,discussionType
+		FROM Discussions
+		WHERE createdOn >=
+		#{inputDate,jdbcType=DATE}
+		ORDER BY createdOn DESC
+	</select>
+
+	<select id="searchDiscussionsByText" resultType="edu.utoledo.panorama.vo.DiscussionVO"
+		parameterType="java.lang.String">
+		SELECT
+		discussionId
+		,topic
+		,description
+		,createdBy
+		,createdOn
+		,lastModifiedOn
+		,lastModifiedBy
+		,replyCount
+		,status
+		,isEdited
+		,discussionType
+		FROM Discussions
+		WHERE
+		topic LIKE
+		#{inputString,jdbcType=VARCHAR}
+		OR
+		description LIKE
+		#{inputString,jdbcType=VARCHAR}
+		ORDER BY createdOn
+		DESC
+	</select>
+
+	<select id="getDiscussionsByTagId" resultType="edu.utoledo.panorama.vo.DiscussionVO"
+		parameterType="java.lang.Double">
+		SELECT * FROM Discussions WHERE discussionId IN (SELECT
+		objectId FROM
+		TopicTags WHERE objectType = 'Discussion' AND tagId =
+		#{tagId})
+	</select>
+
+	<select id="getRepliesForDiscussion" resultType="edu.utoledo.panorama.vo.ReplyVO"
+		parameterType="java.lang.Double">
+		SELECT re.replyId AS replyId
+		,re.discussionId AS
+		discussionId
+		,re.replyText AS replyText
+		,re.createdBy AS createdBy
+		,re.createdOn AS createdOn
+		,re.lastModifiedOn AS lastModifiedOn
+		,re.isAnswer AS isAnswer
+		,(SELECT COUNT(*) FROM ReplyVotes WHERE
+		replyId = re.replyId AND vote = 1) AS voteUps
+		,(SELECT COUNT(*) FROM
+		ReplyVotes WHERE replyId = re.replyId AND vote = 0) AS voteDowns
+		FROM
+		Replies re WHERE discussionId = #{discussionId} ORDER BY
+		lastModifiedOn
+	</select>
+
+	<select id="getUserById" resultType="edu.utoledo.panorama.vo.UserVO"
+		parameterType="java.lang.Double">
+		SELECT userId
+		,userName
+		,fullName
+		,role
+		,isActive
+		,forumCount
+		,topicCount
+		,replyCount
+		,avatar
+		,email
+		FROM Users WHERE userId
+		=
+		#{userId}
+	</select>
+	
+	<select id="getUserByUsername" resultType="java.lang.Integer"
+		parameterType="java.lang.String">
+		SELECT COUNT(userName)l
+		FROM Users WHERE userName
+		=
+		#{userName,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="getUserPassword" resultType="java.lang.String"
+		parameterType="java.lang.Double">
+		SELECT password
+		FROM Users WHERE userId
+		=
+		#{userId}
+	</select>
+	
+	
+	<select id="getNewDiscussionId" resultType="java.lang.Double">
+		SELECT
+		MAX(discussionId) + 1 FROM Discussions
+	</select>
+	<insert id="insertDiscussion" parameterType="edu.utoledo.panorama.vo.DiscussionVO">
+		INSERT INTO
+		Discussions
+		(discussionId
+		,topic
+		,description
+		,createdBy
+		,createdOn
+		,lastModifiedOn
+		,lastModifiedBy
+		,replyCount
+		,status
+		,isEdited
+		,discussionType)
+		VALUES
+		(#{discussionId}
+		,#{topic,jdbcType=VARCHAR}
+		,#{description,jdbcType=VARCHAR}
+		,#{createdBy}
+		,GETDATE()
+		,GETDATE()
+		,#{createdBy}
+		,0
+		,1
+		,0
+		,'FORUM')
+	</insert>
+
+	<update id="updateDiscussion" parameterType="edu.utoledo.panorama.vo.DiscussionVO">
+		UPDATE Discussions
+		SET topic = #{topic,jdbcType=VARCHAR}
+		AND description =
+		#{description,jdbcType=VARCHAR}
+		AND lastModifiedOn = GETDATE()
+		AND
+		isEdited = 1
+		WHERE discussionId = #{discussionId}
+	</update>
+
+	<update id="updateDiscussionStatistics" parameterType="edu.utoledo.panorama.vo.ReplyVO">
+		UPDATE
+		Discussions
+		SET replyCount = (SELECT COUNT(*) FROM Replies WHERE
+		discussionId = #{discussionId} )
+		,lastModifiedBy = #{createdBy}
+		,lastModifiedOn = GETDATE()
+		WHERE discussionId = #{discussionId}
+	</update>
+
+	<update id="closeDiscussion" parameterType="edu.utoledo.panorama.vo.DiscussionVO">
+		UPDATE Discussions
+		SET status = 0,lastModifiedOn = GETDATE()
+		WHERE discussionId =
+		#{discussionId}
+	</update>
+	
+	<delete id="deleteDiscussion" parameterType="java.lang.Double">
+		DELETE FROM Discussions
+		WHERE discussionId = #{replyId}
+	</delete>
+	
+	<select id="getNewReplyId" resultType="java.lang.Double">
+		SELECT MAX(replyId) + 1
+		FROM Replies
+	</select>
+	<insert id="createReply" parameterType="edu.utoledo.panorama.vo.ReplyVO">
+		INSERT INTO Replies
+		(replyId
+		,discussionId
+		,replyText
+		,createdBy
+		,createdOn
+		,lastModifiedOn
+		,isAnswer)
+		VALUES
+		(#{replyId}
+		,#{discussionId}
+		,#{replyText,jdbcType=VARCHAR}
+		,#{createdBy}
+		,GETDATE()
+		,GETDATE()
+		,0)
+	</insert>
+
+	<update id="updateReply" parameterType="edu.utoledo.panorama.vo.ReplyVO">
+		UPDATE Replies
+		SET
+		replyText = #{replyText,jdbcType=VARCHAR},
+		lastModifiedOn = GETDATE()
+		WHERE replyId = #{replyId}
+	</update>
+	
+	<delete id="deleteReply" parameterType="java.lang.Double">
+		DELETE FROM Replies
+		WHERE replyId = #{replyId}
+	</delete>
+
+	<delete id="deleteReplies" parameterType="java.lang.Double">
+		DELETE FROM Replies
+		WHERE discussionId = #{discussionId}
+	</delete>
+
+	<update id="markReplyAsAnswer" parameterType="edu.utoledo.panorama.vo.ReplyVO">
+		UPDATE Replies
+		SET
+		isAnswer = 1,
+		lastModifiedOn = GETDATE()
+		WHERE replyId = #{replyId}
+	</update>
+
+	<insert id="voteReply" parameterType="edu.utoledo.panorama.vo.ReplyVoteVO">
+		INSERT INTO ReplyVotes
+		(replyId
+		,markedBy
+		,markedOn
+		,vote)
+		VALUES
+		(#{replyId}
+		,#{markedBy}
+		,GETDATE()
+		,#{vote})
+	</insert>
+
+	<insert id="createUser" parameterType="edu.utoledo.panorama.vo.UserVO">
+		INSERT INTO Users
+		(userId
+		,userName
+		,fullName
+		,password
+		,createdOn
+		,role
+		,isActive
+		,forumCount
+		,topicCount
+		,replyCount
+		,avatar
+		,email)
+		VALUES
+		((SELECT MAX(userId) FROM
+		Users) + 1
+		,#{userName,jdbcType=VARCHAR}
+		,#{fullName,jdbcType=VARCHAR}
+		,#{password,jdbcType=VARCHAR}
+		,GETDATE()
+		,'MEMBER'
+		,1
+		,0
+		,0
+		,0
+		,#{avatar}
+		,#{email,jdbcType=VARCHAR})
+	</insert>
+	
+	<update id="updateUser" parameterType="edu.utoledo.panorama.vo.UserVO">
+		UPDATE Users
+		SET fullName = #{fullName,jdbcType=VARCHAR}
+		,password = #{password,jdbcType=VARCHAR}
+		,email = #{email,jdbcType=VARCHAR}
+		WHERE userId = #{userId}
+	</update>
+	
+	<insert id="insertTopicTag" parameterType="edu.utoledo.panorama.vo.TopicTagVO">
+		INSERT INTO TopicTags
+		(objectId
+		,objectType
+		,tagId)
+		VALUES
+		(#{objectId}
+		,'Discussion'
+		,#{tagId})
+	</insert>
+
+	<insert id="insertReplyTag" parameterType="edu.utoledo.panorama.vo.TopicTagVO">
+		INSERT INTO TopicTags
+		(objectId
+		,objectType
+		,tagId)
+		VALUES
+		(#{objectId}
+		,'Reply'
+		,#{tagId})
+	</insert>
+
+	<select id="validateUser" parameterType="edu.utoledo.panorama.vo.UserVO"
+		resultType="edu.utoledo.panorama.vo.UserVO">
+		SELECT userId
+		,userName
+		,fullName
+		,password
+		,createdOn
+		,role
+		,isActive
+		,forumCount
+		,topicCount
+		,replyCount
+		,avatar
+		,email
+		FROM Users
+		WHERE
+		userName = #{userName,jdbcType=VARCHAR}
+	</select>
+
+	<select id="getUserRole" parameterType="java.lang.Double"
+		resultType="java.lang.String">
+		SELECT role FROM Users WHERE userId = #{userId}
+	</select>
+
+	<update id="updateUserScores" parameterType="java.lang.Double">
+		UPDATE Users
+		SET
+		topicCount = (select count(*) from Discussions where createdBy =
+		#{userId})
+		,replyCount = (select count(*) from Replies where createdBy
+		= #{userId})
+		WHERE
+		userId = #{userId}
+	</update>
+
+	<select id="getTopContributor" resultType="edu.utoledo.panorama.vo.UserVO">
+		SELECT TOP 1 userId
+		,userName
+		,fullName
+		,createdOn
+		,role
+		,isActive
+		,forumCount
+		,topicCount
+		,replyCount
+		,avatar
+		,email
+		FROM Users ORDER BY replyCount DESC,
+		topicCount DESC
+	</select>
+
+	<select id="getLatestUser" resultType="edu.utoledo.panorama.vo.UserVO">
+		SELECT TOP 1 userId
+		,userName
+		,fullName
+		,createdOn
+		,role
+		,isActive
+		,forumCount
+		,topicCount
+		,replyCount
+		,avatar
+		,email
+		FROM Users ORDER BY createdOn DESC
+	</select>
+
+	<select id="getAvatars" resultType="edu.utoledo.panorama.vo.AvatarVO">
+		SELECT avatarId,avatarURL
+		FROM Avatars
+	</select>
+
+	<select id="getTopicTags" resultType="edu.utoledo.panorama.vo.TagVO"
+		parameterType="java.lang.Double">
+		SELECT t.tagId
+		,t.tagName
+		,t.tagCategory
+		FROM Tags t,
+		TopicTags tt WHERE t.tagId = tt.tagId
+		AND tt.objectType = 'Discussion'
+		AND tt.objectId = #{objectId}
+	</select>
+
+	<select id="getReplyTags" resultType="edu.utoledo.panorama.vo.TagVO"
+		parameterType="java.lang.Double">
+		SELECT t.tagId
+		,t.tagName
+		,t.tagCategory
+		FROM Tags t,
+		TopicTags tt WHERE t.tagId = tt.tagId
+		AND tt.objectType = 'Reply' AND
+		tt.objectId = #{objectId}
+	</select>
+
+	<select id="getUserTags" resultType="edu.utoledo.panorama.vo.TagVO"
+		parameterType="java.lang.Double">
+		SELECT * FROM TAGS WHERE
+		tagId in
+		(SELECT tagId FROM
+		TopicTags WHERE objectType = 'Discussion' AND objectId in
+		(SELECT
+		discussionId FROM Discussions WHERE createdBy = #{userId} OR
+		lastModifiedBy = #{userId} )
+		)
+		UNION
+		SELECT * from TAGS WHERE
+		tagId in
+		(SELECT tagId FROM TopicTags WHERE objectType = 'Reply' AND objectId
+		in
+		(SELECT replyId FROM Replies WHERE createdBy = #{userId})
+		)
+	</select>
+
+	<select id="getTrendingTags" resultType="edu.utoledo.panorama.vo.TagVO">
+		SELECT * FROM Tags where
+		tagId IN (SELECT tagId FROM TopicTags WHERE objectType='Discussion')
+	</select>
+
+	<select id="searchTagsByName" parameterType="java.lang.String"
+		resultType="edu.utoledo.panorama.vo.TagVO">
+		SELECT * FROM Tags where tagName LIKE
+		#{tagName,jdbcType=VARCHAR}
+	</select>
+
+	<select id="getCurrentUser" parameterType="java.lang.Double" resultType="edu.utoledo.panorama.vo.UserVO">
+		SELECT userId
+		,userName
+		,fullName
+		,createdOn
+		,role
+		,forumCount
+		,topicCount
+		,replyCount
+		,avatar
+		,email
+		FROM Users
+		WHERE userId = #{userId}
+	</select>
+	
+	<select id="getUsers" resultType="edu.utoledo.panorama.vo.UserVO">
+		SELECT userId
+		,userName
+		,fullName
+		,createdOn
+		,role
+		,forumCount
+		,topicCount
+		,replyCount
+		,avatar
+		,email
+		FROM Users
+	</select>
+
+</mapper>
