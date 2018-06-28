@@ -1,0 +1,99 @@
+<div class="row" ng-controller="IndexController">
+    <div class="col-sm-8">
+        <div class="widget" style="margin-top: 10px;" ng-init="getTrendingDiscussions()">
+            <div class="widget-title">
+                <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i> Trending Discussions
+            </div>
+            <div class="widget-body">
+                <div class="row" style="border-top: 1px solid white; margin: 10px;" ng-repeat="discussion in discussions">
+                    <div class="col-xs-12">
+                        <a class="forum-title" style="color: white;" ui-sref="app.viewDiscussion({ discussionId: discussion.discussionId })">{{discussion.topic}}      
+                        </a>
+                        <br>
+                        <small><a style="color: white;" ui-sref="app.user({ userId: discussion.createdByUser.userId })">{{discussion.createdByUser.fullName}}</a> started {{discussion.createdOn | relativeDate}}</small>
+                        <small class="pull-right"><a style="color: white;" ui-sref="app.user({ userId: discussion.lastModifiedByUser.userId })">Last post by {{discussion.lastModifiedByUser.fullName}}</a> {{discussion.lastModifiedOn | relativeDate}}</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="widget" style="margin-top: 10px;" ng-init="getUsers()">
+            <div class="widget-title">
+                <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i> Our Contributors
+            </div>
+            <div class="widget-body">
+                <div class="row">
+                    <div class="col-sm-3 col-xs-12" ng-repeat="user in users">
+                        <div class="well well-sm" style="background-color: #FFFFFF;">
+                            <div class="media" ui-sref="app.user({ userId: user.userId })">
+                                <a class="thumbnail pull-left" style="padding-right: 4px !important;">
+                                    <img class="img-responsive" style="width: 140px;" src="{{user.avatar}}">
+                                </a>
+                                <div class="media-body" style="padding-left: 5px !important;">
+                                    <h5 class="media-heading">{{user.fullName}}</h5>
+                                    <h6>Joined {{user.createdOn | relativeDate}}</h6>
+                                    <!--                     <h6 ng-if="user.role==='ADMIN'">Site Admin</h6>
+                                    <h6 ng-if="user.role==='MEMBER'">Member</h6>-->
+                                    <p><span class="label label-info">{{user.topicCount}} Topics</span> <span class="label label-success">{{user.replyCount}} Replies</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="widget" style="margin-top: 10px; cursor: pointer;" ng-init="getTopContributor()" ui-sref="app.user({ userId: topContributor.userId })">
+                        <div class="widget-title">
+                            <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i> Whos Happening
+                        </div>
+                        <div class="widget-body">
+                            <div style="display: inline-flex;">
+                                <div style="display: table-cell; margin-right: 10px;">
+                                    <img class="img-circle" style="width: 80px;" src="{{topContributor.avatar}}">
+                                </div>
+                                <div style="display: table-cell;">
+                                    <p style="font-size: 1.4em;">{{topContributor.fullName}}</p>
+                                    <div>
+                                        <i class="fa fa-comments-o" aria-hidden="true"></i>&nbsp;Topic Contributions:&nbsp; {{topContributor.topicCount}}
+                                        <br>
+                                        <i class="fa fa-comment" aria-hidden="true"></i>&nbsp;Reply Contributions:&nbsp;{{topContributor.replyCount}}
+                                    </div>
+                                    <div ng-init="getUserTags()">
+                                        <br>
+                                        <p style="font-size: 1.3em;">Interests: </p>
+                                        <a style="margin-right: 5px; margin-bottom: 5px;" ng-repeat="(category,tags) in topContributorTags | groupBy: 'tagCategory'">
+                                            <div class="badge badge-info"><span style="font-size: 1.2em; line-height: 1.2em;">{{category}}</span>&nbsp;&nbsp;<span class="badge">{{tags.length}}</span></div>
+                                        </a>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="widget" style="margin-top: 10px;" ng-init="getTrendingTags()">
+                        <div class="widget-title">
+                            <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i> Whats Happening
+                        </div>
+                        <div class="widget-body">
+                            <div ng-repeat="(category,tags) in trendingTags | groupBy: 'tagCategory'">
+                                <p>{{category}}</p>
+                                <a style="margin-right: 5px; margin-bottom: 5px;" ng-repeat="tag in tags" ui-sref="app.discussionbytag({ tagId: tag.tagId, tagName: tag.tagName })">
+                                    <div class="badge badge-info"><span style="font-size: 1.2em; line-height: 1.2em;">{{tag.tagName}}</span></div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

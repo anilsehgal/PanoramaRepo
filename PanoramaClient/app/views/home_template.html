@@ -1,0 +1,55 @@
+<div class="row forum-header">
+    <div class="col-sm-10">
+        <i class="fa fa-bars" aria-hidden="true"></i> &nbsp; {{title}}
+    </div>
+    <div class="col-sm-2 hidden-xs">
+        Last Post
+    </div>
+</div>
+<div class="row topic-row visCloseOnHover" ng-repeat="discussion in discussions">
+    <!--            <div class="col-sm-2">
+                <div style="display: inline-flex;">
+                    <div style="display: table-cell; margin-right: 10px;">
+                        <img src="{{discussion.createdByUser.avatar}}" class="avatar-small">
+                    </div>
+                    <div style="display: table-cell;">
+                        <br>
+                        {{discussion.createdByUser.fullName}}
+                        <br>
+                        <small>{{discussion.createdOn | relativeDate}}</small>
+                    </div>
+                </div>
+            </div>-->
+    <div class="col-sm-10">
+        <a class="forum-title" ui-sref="app.viewDiscussion({ discussionId: discussion.discussionId })">{{discussion.topic}}<span class="pull-right" style="font-size: 0.8em;">{{discussion.replyCount}} Replies</span>       
+        </a> 
+        <br>
+        <small><a ui-sref="app.user({ userId: discussion.createdByUser.userId })">{{discussion.createdByUser.fullName}}</a> started {{discussion.createdOn | relativeDate}}</small>
+        <br>
+        <div style="margin: 6px;">{{discussion.description | plain_preview}}</div>
+
+    </div>
+    <!--            <div class="col-sm-2">
+                <div style="display: inline-flex;">
+                    <div style="display: table-cell;">
+                        {{discussion.createdByUser.fullName}}
+                        <br>
+                        <span style="font-size: 0.9em;">{{discussion.createdOn | relativeDate}}</span>
+                    </div>
+                </div>
+            </div>-->
+    <div class="col-sm-2 hidden-xs">
+        <div style="display: inline-flex;">
+            <div style="display: table-cell;" style="position: relative;">
+                <a ui-sref="app.user({ userId: discussion.lastModifiedByUser.userId })">{{discussion.lastModifiedByUser.fullName}}</a> <span class="visOnHover" style="position: absolute; top: -10px; right: 5px;font-size: 1.5em;" ng-if="isUserLoggedIn() && getUserRole() === 'ADMIN'" ng-click="deleteDiscussion(discussion)">&times;</span>
+                <br>
+                <span style="font-size: 0.9em;">{{discussion.lastModifiedOn | relativeDate}}</span>
+            </div>
+        </div>
+        <div ng-init="getTopicTags(discussion.discussionId, discussion)">
+            <a style="margin-right: 5px; margin-bottom: 5px;" ng-repeat="tag in discussion.tags" ui-sref="app.discussionbytag({ tagId: tag.tagId, tagName: tag.tagName })">
+                <div class="badge badge-info" data-toggle="tooltip" title="Category: {{tag.tagCategory}}"><small>{{tag.tagName}}</small></div>
+            </a>
+        </div>
+    </div>
+</div>

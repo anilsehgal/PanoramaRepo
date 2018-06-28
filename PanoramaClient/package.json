@@ -1,0 +1,15 @@
+{
+  "name": "panorama",
+  "version": "1.0.0",
+  "description": "A global discussion Forum",
+  "main": "app/index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "discussion",
+    "forum"
+  ],
+  "author": "Anil Sehgal",
+  "license": "ISC"
+}

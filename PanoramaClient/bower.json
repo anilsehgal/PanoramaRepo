@@ -1,0 +1,37 @@
+{
+  "name": "panorama",
+  "description": "A global discussion Forum",
+  "main": "app/index.html",
+  "authors": [
+    "Anil Sehgal"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "discussion",
+    "forum"
+  ],
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "angular": "^1.6.4",
+    "angular-ui-router": "^0.4.2",
+    "font-awesome": "^4.7.0",
+    "angular-filter": "^0.5.16",
+    "angular-sanitize": "^1.6.4",
+    "ngToast": "ngtoast#^2.0.0",
+    "angular-animate": "^1.6.4"
+  },
+  "devDependencies": {
+    "angular-trix": "^1.0.2",
+    "angular-relative-date": "^2.1.0",
+    "angular-bs-popover": "*"
+  }
+}

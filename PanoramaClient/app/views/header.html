@@ -1,0 +1,204 @@
+<div class="container-fluid no-bg">
+    <div class="container">
+        <div class="row page-head  hidden-xs">
+            <div class="col-sm-4">
+                <div id="site-description" ui-sref="app.welcome()">
+                    <a id="logo" class="logo">
+                        <img src="img/logo.png">
+                        <span class="logo-text">Socialize</span>
+                    </a>
+                </div>
+            </div>
+            <div class="col-sm-6 col-sm-offset-2">
+                <div style="display: inline-flex;">
+                    <div class="nav-tile" align="center" ui-sref="app.welcome()">
+                        <i class="fa fa-home" aria-hidden="true"></i>
+                        <br>
+                        <div align="left" style="margin-top: -15px;">Home</div>
+                    </div>
+                    <div class="nav-tile-alt" ng-if="isUserLoggedIn()" align="center" ui-sref="app.createDiscussion()">
+                        <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                        <br>
+                        <div align="left" style="margin-top: -15px;">New Topic</div>
+                    </div>
+<!--                    <div class="nav-tile-alt" align="center" ui-sref="app.users()">
+                        <i class="fa fa-users" aria-hidden="true"></i>
+                        <br>
+                        <div align="left" style="margin-top: -15px;">Users</div>
+                    </div>-->
+                    <div class="nav-tile" align="center" ui-sref="app.stats()">
+                        <i class="fa fa-bar-chart" aria-hidden="true"></i>
+                        <br>
+                        <div align="left" style="margin-top: -15px;">Statistics</div>
+                    </div>
+                    <div class="nav-tile-alt" align="center" ui-sref="app.profile()" ng-if="isUserLoggedIn()">
+                        <i class="fa fa-user-circle" aria-hidden="true"></i>
+                        <br>
+                        <div align="left" style="margin-top: -15px;">Profile</div>
+                    </div>
+                    <div class="nav-tile" align="center" ui-sref="app.info()">
+                        <i class="fa fa-info-circle" aria-hidden="true"></i>
+                        <br>
+                        <div align="left" style="margin-top: -15px;">Site Info</div>
+                    </div>
+<!--                    <div ng-if="isUserLoggedIn()">
+                        <div class="nav-tile-small nav-tile-top nav-tile-left" align="center">
+                            <i class="fa fa-user-circle" aria-hidden="true"></i>
+                        </div>
+                        <div class="nav-tile-alt-small nav-tile-bot nav-tile-left" align="center">
+                            <i class="fa fa-cog" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <div ng-if="isUserLoggedIn()">
+                        <div class="nav-tile-alt-small nav-tile-top nav-tile-right" align="center">
+                            <i class="fa fa-info-circle" aria-hidden="true"></i>
+                        </div>
+                        <div class="nav-tile-small nav-tile-bot nav-tile-right" align="center">
+                            <i class="fa fa-bar-chart" aria-hidden="true"></i>
+                        </div>
+                    </div>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<nav class="navbar navbar-default hidden-xs">
+    <div class="container">
+
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav navbar-left" ng-if="!isUserLoggedIn()">
+                <li><a data-toggle="modal" data-target="#registerModal"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                <li><a data-toggle="modal" data-target="#loginModal"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-left" ng-if="isUserLoggedIn()">
+                <li><p style="line-height: 3em;"><b>{{getIdentifier()}}</b>&nbsp;&nbsp;<a style="color: #777777;" ng-click="logout()"><span class="glyphicon glyphicon-log-out"></span> Logout</a></p></li>
+            </ul>
+            <form class="navbar-form navbar-right">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search" ng-model="searchText">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" type="button" ng-click="performSearch()">
+                            <i style="color: #CCCCCC;line-height: 21px;" class="glyphicon glyphicon-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</nav>
+<nav class="navbar navbar-default visible-xs-block">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#siteNav">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Socialize</a>
+        </div>
+        <div class="collapse navbar-collapse" id="siteNav">
+            <ul class="nav navbar-nav">
+                <li><a ui-sref="app.welcome()"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
+                <li ng-if="isUserLoggedIn()"><a ui-sref="app.createDiscussion()"><i class="fa fa-plus-circle" aria-hidden="true"></i> New Discussion</a></li>
+                <li><a ui-sref="app.stats()"><i class="fa fa-bar-chart" aria-hidden="true"></i> Usage Statistics</a></li>
+                <li><a ui-sref="app.info()"><i class="fa fa-info-circle" aria-hidden="true"></i> Site Info</a></li>
+                <li ng-if="isUserLoggedIn()"><a ui-sref="app.profile()"><i class="fa fa-user-circle" aria-hidden="true"></i> Profile</a></li>
+            </ul>
+            <form class="navbar-form navbar-left">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search" ng-model="searchText">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" ng-click="performSearch()">
+                            <i style="color: #CCCCCC;line-height: 21px;" class="glyphicon glyphicon-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <ul class="nav navbar-nav navbar-right" ng-if="!isUserLoggedIn()">
+                <li><a data-toggle="modal" data-target="#registerModal"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                <li><a data-toggle="modal" data-target="#loginModal"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right" ng-if="isUserLoggedIn()">
+                <li><p style="line-height: 3em;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>{{getIdentifier()}}</b>&nbsp;&nbsp;<a style="color: #777777;" ng-click="logout()"><span class="glyphicon glyphicon-log-out"></span> Logout</a></p></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div id="loginModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <form ng-submit="login()" name="loginForm" novalidate>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title form-input-label">Login</h4>
+                </div>
+                <div class="modal-body">
+
+                    <p class="form-input-label">Username&nbsp;
+                        <span class="text-warning" ng-show="loginForm.username.$touched && loginForm.username.$invalid"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+                        <span class="text-success" ng-show="loginForm.username.$touched && loginForm.username.$valid"><i class="fa fa-check" aria-hidden="true"></i></span></p>
+                    <input type="text" ng-model="user.username" name="username" class="form-control" required>
+                    <br>
+                    <p class="form-input-label">Pasword&nbsp;
+                        <span class="text-warning" ng-show="loginForm.password.$touched && loginForm.password.$invalid"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+                        <span class="text-success" ng-show="loginForm.password.$touched && loginForm.password.$valid"><i class="fa fa-check" aria-hidden="true"></i></span></p>
+                    <input type="password" ng-model="user.password" name="password" class="form-control" required>
+
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" value="Login" class="btn btn-primary" ng-disabled="loginForm.$invalid">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div id="registerModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-md">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <form ng-submit="register()" name="registrationForm" novalidate>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title form-input-label">Sign Up</h4>
+                </div>
+                <div class="modal-body">
+
+                    <p class="form-input-label">Select a username&nbsp;
+                        <span class="text-warning" ng-show="registrationForm.userName.$touched && registrationForm.userName.$invalid"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+                        <span class="text-success" ng-show="registrationForm.userName.$touched && registrationForm.userName.$valid"><i class="fa fa-check" aria-hidden="true"></i></span></p>
+                    <input type="text" ng-model="newUser.userName" name="userName" class="form-control" required>
+                    <br>
+                    <p class="form-input-label">Provide your full name&nbsp;
+                        <span class="text-warning" ng-show="registrationForm.fullName.$touched && registrationForm.fullName.$invalid"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+                        <span class="text-success" ng-show="registrationForm.fullName.$touched && registrationForm.fullName.$valid"><i class="fa fa-check" aria-hidden="true"></i></span></p>
+                    <input type="text" ng-model="newUser.fullName" name="fullName" class="form-control" required>
+                    <br>
+                    <p class="form-input-label">Select a password&nbsp;
+                        <span class="text-warning" ng-show="registrationForm.password.$touched && registrationForm.password.$invalid"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+                        <span class="text-success" ng-show="registrationForm.password.$touched && registrationForm.password.$valid"><i class="fa fa-check" aria-hidden="true"></i></span></p>
+                    <input type="password" ng-model="newUser.password" name="password" class="form-control" required>
+                    <br>
+                    <p class="form-input-label">Provide your email&nbsp;
+                        <span class="text-warning" ng-show="registrationForm.email.$touched && registrationForm.email.$invalid"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>
+                        <span class="text-success" ng-show="registrationForm.email.$touched && registrationForm.email.$valid"><i class="fa fa-check" aria-hidden="true"></i></span></p>
+                    <input type="email" ng-model="newUser.email" name="email" class="form-control" required>
+                    <br>
+                    <p class="form-input-label">Pick an Avatar</p>
+                    <div style="display: inline-block;" ng-init="getAvatars()">
+                        <div ng-repeat="avatar in avatars" style="float: left;">
+                            <img src="{{avatar.avatarURL}}" id="avatarChoice{{avatar.avatarId}}" name="avatarChoice" class="avatar-image" ng-click="selectAvatar(avatar)">
+                        </div>
+                    </div>
+                    <br>
+                    <p class="form-input-label">OR Upload your own pic (500Kb max size):</p>
+                    <input type="file" ng-model="avatar" name="avatar" accept="image/*" class="form-control" onchange="angular.element(this).scope().uploadImage(this.files)">
+                    
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" value="Sign Up" class="btn btn-primary" ng-disabled="registrationForm.$invalid">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

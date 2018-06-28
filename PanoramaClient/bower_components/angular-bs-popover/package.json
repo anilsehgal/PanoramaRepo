@@ -1,0 +1,26 @@
+{
+  "name": "angular-bs-popover",
+  "version": "1.0.1",
+  "description": "AngularJS + Bootstrap popover support",
+  "main": "angular-bs-popover.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hash-bang/angular-bs-popover.git"
+  },
+  "keywords": [
+    "angular",
+    "bootstrap",
+    "popover",
+    "ui"
+  ],
+  "author": "Matt Carter <m@ttcarter.com> (https://github.com/hash-bang)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hash-bang/angular-bs-popover/issues"
+  },
+  "homepage": "https://github.com/hash-bang/angular-bs-popover#readme",
+  "dependencies": {
+    "angular": "^1.5.3",
+    "bootstrap": "^3.3.6"
+  }
+}

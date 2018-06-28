@@ -1,0 +1,310 @@
+html,
+body {
+    
+    background-color: #E6EFF2;
+    font-size: 14px;
+    
+}
+h1, h2, h3, h4, h5, h6 {
+    color: #444444;
+    font-family: 'open sans', arial, sans-serif;
+}
+.card-tag {
+    color: #444444;
+    font-family: 'open sans', arial, sans-serif;
+}
+a,a:hover {
+    text-decoration: none;
+}
+
+.page-head {
+    height: 120px;
+}
+
+.no-bg {
+    background-color: #FFFFFF;
+}
+
+#site-description {
+    float: left;
+    height: 110px;
+    line-height: 110px;
+}
+
+#site-description h1 {
+    margin-right: 0;
+}
+
+.logo {
+    padding: 0;
+    max-width: 370px;
+    font-size: 30px;
+    font-weight: 300;
+}
+
+.logo:hover {
+    text-decoration: none;
+}
+
+.logo img {
+    vertical-align: middle;
+    max-height: 75px;
+}
+
+.avatar-small {
+    width: 40px;
+    margin-right: 5px;
+}
+
+a {
+    cursor: pointer;
+    color: #00AFF0;
+}
+
+.forum-title {
+    font-size: 1.3em;
+    font-family: 'Open Sans', sans-serif;
+    text-decoration: none;
+ /*   margin-bottom: 20px;*/
+}
+
+.forum-header {
+    background-color: #81D339;
+    color: white;
+    padding: 10px 10px 10px 10px;
+    margin-top: 10px;
+}
+
+.topic-row {
+    color: #888888;
+    border-bottom: 1px #CCCCCC solid;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #FFFFFF;
+}
+
+.topic-row:hover {
+    background-color: #f8f8f8;
+}
+
+.search-button {
+    border: none;
+    border-left: 1px solid #EEEEEE;
+    background: transparent;
+}
+
+.search-button:hover {
+    background: #00AFF0;
+    border-color: transparent;
+}
+
+.navbar {
+    background-color: #FFFFFF;
+}
+
+.well-closed {
+    border-color: #81D339 !important;
+    color: #81D339 !important;
+    font-size: 0.8em;
+    width: 60px;
+    background-color: transparent;
+}
+
+.well-open {
+    border-color: #d9534f !important;
+    color: #d9534f !important;
+    font-size: 0.8em;
+    width: 60px;
+    background-color: transparent;
+}
+
+.nav-tile {
+    background-color: #81D339;
+    color: white;
+    width: 110px;
+    height: 110px;
+    padding: 5px;
+    margin-top: 8px;
+    margin-left: 5px;
+    margin-bottom: 8px;
+    cursor: pointer;
+}
+
+.nav-tile-alt {
+    cursor: pointer;
+    background-color: #00AFF0;
+    color: white;
+    width: 110px;
+    height: 110px;
+    padding: 5px;
+    margin-top: 8px;
+    margin-left: 5px;
+    margin-bottom: 8px;
+}
+
+.nav-tile:hover,
+.nav-tile-alt:hover {
+    background-color: #81D339;
+}
+
+.nav-tile > i,
+.nav-tile-alt > i {
+    font-size: 40px;
+    line-height: 100px;
+}
+
+.nav-tile > i:hover,
+.nav-tile-alt > i:hover {
+    font-size: 45px;
+}
+
+.nav-tile-top {
+    margin-top: 8px;
+    margin-bottom: 5px;
+}
+
+.nav-tile-bot {
+    margin-top: 5px;
+    margin-bottom: 8px;
+}
+
+.nav-tile-left {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.nav-tile-right {
+    margin-right: 5px;
+}
+
+.nav-tile-small {
+    background-color: #81D339;
+    color: white;
+    width: 52px;
+    height: 52px;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.nav-tile-alt-small {
+    background-color: #00AFF0;
+    color: white;
+    width: 52px;
+    height: 52px;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.nav-tile-small:hover,
+.nav-tile-alt-small:hover {
+    background-color: #81D339;
+}
+
+.nav-tile-small > i,
+.nav-tile-alt-small > i {
+    font-size: 20px;
+    line-height: 45px;
+}
+
+.nav-tile-small > i:hover,
+.nav-tile-alt-small > i:hover {
+    font-size: 22px;
+}
+
+.widget {
+    width: 100%;
+    background-color: #00AFF0;
+    padding: 10px;
+    color: white;
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Open Sans'), local('OpenSans'), url('http://themes.googleusercontent.com/static/fonts/opensans/v5/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff') format('woff');
+}
+
+.widget-title {
+    line-height: 25px;
+    padding: 5px;
+    font-size: 1.8em;
+    font-family: 'open sans', arial, sans-serif;
+    font-weight: 100;
+    margin-bottom: 20px;
+}
+
+.form-input-label {
+    font-family: 'open sans', arial, sans-serif;
+    font-weight: 100;
+}
+
+.badge-info {
+    margin: 2px;
+    background-color: #999999;
+    text-align: left;
+    font-weight: 100;
+}
+
+.badge-info:hover {
+    background-color: #888888;
+}
+
+.trix-content {
+    min-height: 200px;
+    background-color: #FFFFFF;
+}
+
+.avatar-image {
+    width: 60px;
+    height: 60px;
+    margin: 2px;
+    padding: 1px;
+    border-radius: 5px;
+    transition: all 0.30s ease-in-out;
+    cursor: pointer;
+}
+
+.avatar-image:hover {
+    box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+    border: 1px solid rgba(81, 203, 238, 1);
+}
+
+.avatar-image-selected {
+  box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+  border: 4px solid rgba(81, 203, 238, 1);
+}
+
+.img-thumbnail {
+    max-width: 60px;
+}
+
+.visCloseOnHover .visOnHover {
+    display: none;
+    cursor: pointer;
+}
+
+.visCloseOnHover:hover .visOnHover {
+    display: block;
+    cursor: pointer;
+}
+
+form input.ng-invalid.ng-touched {
+    box-shadow: 0px 0px 13px rgba(255, 133, 0, 0.9);
+}
+
+form input.ng-valid.ng-touched {
+    box-shadow: 0px 0px 13px rgba(82, 190, 128, 0.9);
+}
+
+.logo-text {
+    font-size: 1em;
+}
+
+.logo {
+    display: inline-block; 
+    padding: 20px; 
+    height: 100px;
+    margin: 5px;
+    border-radius: 10px;
+}

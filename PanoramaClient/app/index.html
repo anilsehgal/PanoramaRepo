@@ -1,0 +1,48 @@
+<html lang="en" ng-app="panorama">
+
+<head>
+    <title>Socialize</title>
+
+    <!-- Stylesheets -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="../bower_components/trix/dist/trix.css" rel="stylesheet">
+    <link href="../bower_components/ngToast/dist/ngToast.css" rel="stylesheet">
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&amp;subset=latin" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet">
+</head>
+
+<body>
+    <toast></toast>
+    <div ui-view="header"></div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div ui-view="content"></div>
+            </div>
+        </div>
+        <div ui-view="footer"></div>
+
+        <!-- Libraries -->
+        <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+        <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="../bower_components/angular/angular.min.js"></script>
+        <script src="../bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+        <script src="../bower_components/angular-filter/dist/angular-filter.min.js"></script>
+        <script src="../bower_components/angular-relative-date/dist/angular-relative-date.min.js"></script>
+        <script src="../bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+        <script src="../bower_components/trix/dist/trix.js"></script>
+        <script src="../bower_components/angular-trix/dist/angular-trix.min.js"></script>
+        <script src="../bower_components/angular-animate/angular-animate.min.js"></script>
+        <script src="../bower_components/ngToast/dist/ngToast.min.js"></script>
+        <!-- Scripts -->
+        <script src="js/app.js"></script>
+        <script src="js/controllers.js"></script>
+        <script src="js/services.js"></script>
+
+</body>
+
+
+</html>

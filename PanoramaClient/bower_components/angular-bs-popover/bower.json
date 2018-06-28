@@ -1,0 +1,20 @@
+{
+  "name": "angular-bs-popover",
+  "version": "1.0.0",
+  "authors": [
+    "Matt Carter <m@ttcarter.com>"
+  ],
+  "description": "AngularJS + Bootstrap popover support",
+  "main": "angular-bs-popover.js",
+  "keywords": [
+    "angular",
+    "bootstrap",
+    "popover"
+  ],
+  "license": "MIT",
+  "homepage": "http://momsfriendlydevco.github.io/ng-mfdc",
+  "dependencies": {
+    "angular": "~1.4.1",
+    "bootstrap": "~3.3.5"
+  }
+}
